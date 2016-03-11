@@ -1,0 +1,9 @@
+{% block rafrsr_color_picker_widget %}
+    {{ form_widget(form) }}
+    <script>
+        $(function () {
+            var e = $('#{{ form.vars.id }}');
+            e.spectrum({{ widget_options|raw }});
+        });
+    </script>
+{% endblock %}

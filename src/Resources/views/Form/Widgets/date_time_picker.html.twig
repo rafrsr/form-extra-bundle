@@ -1,0 +1,14 @@
+{% block rafrsr_date_time_picker_widget %}
+    {{ form_widget(form) }}
+    <script>
+        $(function () {
+            var picker = $('#{{ form.vars.id }}');
+            {% if mopa_enabled %}
+                picker.closest('.input-group').datetimepicker({{ widget_options|raw }});
+                picker.closest('.input-group').addClass('date');
+            {% else %}
+                picker.datetimepicker({{ widget_options|raw }});
+            {% endif %}
+        });
+    </script>
+{% endblock %}

@@ -1,0 +1,20 @@
+{% extends 'MopaBootstrapBundle:Form/fields.html.twig' %}
+
+{% block form_row %}
+
+    {% if toggle_groups is defined %}
+        {% for group in toggle_groups %}
+            <div class="toggle_group_{{ group }}">
+        {% endfor %}
+    {% endif %}
+
+    {{ parent() }}
+
+    {% if toggle_groups is defined %}
+        {% for group in toggle_groups %}
+            </div>
+        {% endfor %}
+    {% endif %}
+
+    {% include 'RafrsrFormExtraBundle:Form:extensions.html.twig' %}
+{% endblock form_row %}

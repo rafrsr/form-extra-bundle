@@ -1,0 +1,9 @@
+{% block rafrsr_switchery_widget %}
+    {{ form_widget(form) }}
+    <script>
+        $(function () {
+            var elem = document.getElementById('{{ form.vars.id }}');
+            var init = new Switchery(elem, {{ widget_options|raw }});
+        });
+    </script>
+{% endblock %}
