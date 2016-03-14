@@ -15,3 +15,9 @@ services:
         arguments: ['@doctrine']
         tags:
             - { name: form.type_guesser }
+
+  rafrsr_switchery_type_guesser:
+        class: Rafrsr\FormExtraBundle\Form\Guesser\SwitcheryTypeGuesser
+        arguments: ['@doctrine']
+        tags:
+            - { name: form.type_guesser }
