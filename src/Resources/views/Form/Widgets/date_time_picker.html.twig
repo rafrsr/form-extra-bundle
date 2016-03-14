@@ -4,8 +4,8 @@
         $(function () {
             var picker = $('#{{ form.vars.id }}');
             {% if mopa_enabled %}
-                picker.closest('.input-group').datetimepicker({{ widget_options|raw }});
-                picker.closest('.input-group').addClass('date');
+                picker.closest('div').datetimepicker({{ widget_options|raw }});
+                picker.closest('div').addClass('date');
             {% else %}
                 picker.datetimepicker({{ widget_options|raw }});
             {% endif %}
