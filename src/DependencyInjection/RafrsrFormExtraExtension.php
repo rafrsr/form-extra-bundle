@@ -32,6 +32,9 @@ class RafrsrFormExtraExtension extends Extension implements PrependExtensionInte
         $loader = new Loader\YamlFileLoader($container, new FileLocator($configDir));
 
         $loader->load('services.yml');
+        if (!$container->hasDefinition('doctrine')) {
+            $container->removeDefinition('rafrsr_datepicker_type_guesser');
+        }
     }
 
     /**

@@ -27,10 +27,14 @@
   },
   "require-dev": {
     "phpunit/phpunit": "^4.1|^5.1",
-    "satooshi/php-coveralls": "dev-master"
+    "satooshi/php-coveralls": "dev-master",
+    "symfony/doctrine-bridge": "^3.0",
+    "doctrine/dbal": "~2.4",
+    "doctrine/orm": "~2.4,>=2.4.5"
   },
   "suggest":  {
-    "mopa/bootstrap-bundle": "^3.0.0"
+    "mopa/bootstrap-bundle": "(RECOMMENDED) Add bootstrap style to your forms.",
+    "symfony/doctrine-bridge": "Automatically guess form type according to database field type."
   },
   "extra": {
     "branch-alias": {

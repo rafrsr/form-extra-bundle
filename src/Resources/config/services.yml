@@ -9,3 +9,9 @@ services:
       arguments: ['@templating']
       tags:
           - { name: form.type }
+
+  rafrsr_datepicker_type_guesser:
+        class: Rafrsr\FormExtraBundle\Form\Guesser\DatePickerTypeGuesser
+        arguments: ['@doctrine']
+        tags:
+            - { name: form.type_guesser }
