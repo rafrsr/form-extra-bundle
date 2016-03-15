@@ -48,6 +48,7 @@ class EmbeddedTemplateType extends AbstractType
      */
     public function buildView(FormView $view, FormInterface $form, array $options)
     {
+        $options['parameters']['form'] = $view;
         $view->vars['template'] = $this->templating->render($options['template'], $options['parameters']);
 
         $options['required'] = false;
