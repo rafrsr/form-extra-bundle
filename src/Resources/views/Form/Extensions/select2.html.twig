@@ -1,0 +1,7 @@
+{% if form.vars.choices is defined and select2_options is defined %}
+    <script>
+        $(function () {
+            $('#{{ form.vars.id }}').select2({{ select2_options|raw }} );
+        });
+    </script>
+{% endif %}

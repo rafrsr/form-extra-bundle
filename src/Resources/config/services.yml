@@ -10,6 +10,12 @@ services:
       tags:
           - { name: form.type_extension, extended_type: Symfony\Component\Form\Extension\Core\Type\FormType }
 
+  rafrsr_select2_extension:
+      class: Rafrsr\FormExtraBundle\Form\Extension\Select2Extension
+      arguments: ['@templating']
+      tags:
+          - { name: form.type_extension, extended_type: Symfony\Component\Form\Extension\Core\Type\ChoiceType }
+
   rafrsr_embedded_template_form_type:
       class: Rafrsr\FormExtraBundle\Form\Type\EmbeddedTemplateType
       arguments: ['@templating']

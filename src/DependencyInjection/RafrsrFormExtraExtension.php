@@ -51,13 +51,6 @@ class RafrsrFormExtraExtension extends Extension implements PrependExtensionInte
 
         //enabling our custom theme
         $vendorConfig['form_themes'][] = 'RafrsrFormExtraBundle::Form/fields.html.twig';
-        if ($container->hasExtension('mopa_bootstrap') && isset($container->getExtensionConfig('mopa_bootstrap')[0]['form'])) {
-            $vendorConfig['form_themes'][] = 'RafrsrFormExtraBundle::Form/mopa_extra_fields.html.twig';
-            $container->setParameter('mopa_bootstrap_form_enabled', true);
-        } else {
-            $vendorConfig['form_themes'][] = 'RafrsrFormExtraBundle::Form/standalone_extra_fields.html.twig';
-            $container->setParameter('mopa_bootstrap_form_enabled', false);
-        }
         $container->prependExtensionConfig('twig', $vendorConfig);
     }
 }
