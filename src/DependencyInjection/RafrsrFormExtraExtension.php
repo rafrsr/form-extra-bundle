@@ -37,6 +37,7 @@ class RafrsrFormExtraExtension extends Extension implements PrependExtensionInte
 
         if (!isset($bundles['DoctrineBundle'])) {
             $container->removeDefinition('rafrsr_datepicker_type_guesser');
+            $container->removeDefinition('rafrsr_switchery_type_guesser');
         }
     }
 
