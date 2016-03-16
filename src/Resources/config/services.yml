@@ -4,6 +4,12 @@ services:
     tags:
         - { name: form.type_extension, extended_type: Symfony\Component\Form\Extension\Core\Type\FormType }
 
+  rafrsr_widget_template_form_extension:
+      class: Rafrsr\FormExtraBundle\Form\Extension\WidgetTemplateExtension
+      arguments: ['@templating']
+      tags:
+          - { name: form.type_extension, extended_type: Symfony\Component\Form\Extension\Core\Type\FormType }
+
   rafrsr_embedded_template_form_type:
       class: Rafrsr\FormExtraBundle\Form\Type\EmbeddedTemplateType
       arguments: ['@templating']

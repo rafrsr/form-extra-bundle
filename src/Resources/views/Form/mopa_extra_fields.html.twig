@@ -8,7 +8,15 @@
         {% endfor %}
     {% endif %}
 
+    {% if template_prepend is defined %}
+        {{ template_prepend|raw }}
+    {% endif %}
+
     {{ parent() }}
+
+    {% if template_append is defined %}
+        {{ template_append|raw }}
+    {% endif %}
 
     {% if toggle_groups is defined %}
         {% for group in toggle_groups %}
