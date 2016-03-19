@@ -3,7 +3,7 @@
 .idea/
 
 ### Composer
-vendor/
-bin/
+/vendor/
+/bin/
 composer.lock
 
