@@ -29,5 +29,10 @@
         {% endfor %}
     {% endif %}
 
-    {% include 'RafrsrFormExtraBundle:Form:extensions.html.twig' %}
+    {% include 'RafrsrFormExtraBundle:Form/Extensions:form_toggle.html.twig' %}
 {% endblock form_row %}
+
+{% block choice_widget_collapsed %}
+    {{ parent() }}
+    {% include 'RafrsrFormExtraBundle:Form/Extensions:select2.html.twig' %}
+{% endblock %}
