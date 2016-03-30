@@ -10,6 +10,11 @@ services:
       tags:
           - { name: form.type_extension, extended_type: Symfony\Component\Form\Extension\Core\Type\FormType }
 
+  rafrsr_widget_ordered_form_extension:
+      class: Rafrsr\FormExtraBundle\Form\Extension\OrderedExtension
+      tags:
+          - { name: form.type_extension, extended_type: Symfony\Component\Form\Extension\Core\Type\FormType }
+
   rafrsr_select2_extension:
       class: Rafrsr\FormExtraBundle\Form\Extension\Select2Extension
       arguments: ['@templating']
