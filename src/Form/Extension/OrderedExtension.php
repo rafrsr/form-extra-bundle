@@ -68,6 +68,7 @@ class OrderedExtension extends AbstractTypeExtension
                 $priorities[$name] = [
                     'priority' => $priority,
                     'form' => $formView,
+                    'name' => $name,
                 ];
 
                 if (isset($formView->vars['position'])) {
@@ -109,7 +110,7 @@ class OrderedExtension extends AbstractTypeExtension
         };
         usort($priorities, $sortFunction);
 
-        $view->children = array_column($priorities, 'form');
+        $view->children = array_column($priorities, 'form', 'name');
     }
 
     /**
