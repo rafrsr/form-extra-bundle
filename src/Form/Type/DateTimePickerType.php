@@ -20,23 +20,11 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 class DateTimePickerType extends AbstractType
 {
     /**
-     * @var array
-     */
-    protected $widgetOptions = [];
-
-    /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        $widgetOptions = array_intersect_key($options, $this->getDefaultWidgetOptions());
-        $this->widgetOptions = $this->parseWidgetOptions($widgetOptions);
-
-        $intlDateFormatter = new \IntlDateFormatter(\Locale::getDefault(), $options['date_format'], $options['time_format']);
-        $format = $intlDateFormatter->getPattern();
-        $this->widgetOptions['format'] = $this->momentJSFormatConvert($format);
-
-        $builder->addViewTransformer(new DateTimePickerTransformer($intlDateFormatter));
+        $builder->addViewTransformer(new DateTimePickerTransformer($this->getIntlDateFormatter($options)));
     }
 
     /**
@@ -44,30 +32,37 @@ class DateTimePickerType extends AbstractType
      */
     public function buildView(FormView $view, FormInterface $form, array $options)
     {
+        $widgetOptions = $this->parseWidgetOptions(
+            array_intersect_key($options, $this->getDefaultWidgetOptions())
+        );
+
+        $format = $this->getIntlDateFormatter($options)->getPattern();
+        $widgetOptions['format'] = $this->momentJSFormatConvert($format);
+
         if (isset($view->vars['widget_form_control_class']) && isset($view->vars['widget_addon_append']['icon'])) {
             $view->vars['mopa_enabled'] = true;
         } else {
             $view->vars['mopa_enabled'] = false;
         }
 
-        $view->vars['widget_options'] = json_encode($this->widgetOptions);
+        $view->vars['widget_options'] = json_encode($widgetOptions);
         $view->vars['type'] = 'text';
     }
 
     /**
-     * parseWidgetOptions
+     * Parse widget options.
      *
-     * @param $options
+     * @param array $options
      *
      * @return array
      */
-    public function parseWidgetOptions($options)
+    public function parseWidgetOptions(array $options)
     {
         //remove null settings
         $options = array_filter(
             $options,
             function ($val) {
-                return ($val !== null);
+                return $val !== null;
             }
         );
 
@@ -97,7 +92,7 @@ class DateTimePickerType extends AbstractType
                     'date_format' => \IntlDateFormatter::MEDIUM,
                     'time_format' => \IntlDateFormatter::SHORT,
                     'widget_addon_append' => [
-                        'icon' => 'calendar'
+                        'icon' => 'calendar',
                     ],
                 ]
             )
@@ -134,7 +129,7 @@ class DateTimePickerType extends AbstractType
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function getParent()
     {
@@ -142,7 +137,7 @@ class DateTimePickerType extends AbstractType
     }
 
     /**
-     * getDefaultOptions
+     * Get default datetime picker options.
      *
      * @return array
      */
@@ -226,9 +221,21 @@ class DateTimePickerType extends AbstractType
             'ZZZZZ' => 'Z',
             'ZZZ' => 'ZZ',
             // letter 'T'
-            'T' => 'T'
+            'T' => 'T',
         ];
 
         return strtr($format, $formatConvertRules);
+    }
+
+    /**
+     * Get IntlDateFormatter instance from data_format and time_format options.
+     *
+     * @param array $options
+     *
+     * @return \IntlDateFormatter
+     */
+    private function getIntlDateFormatter(array $options)
+    {
+        return new \IntlDateFormatter(\Locale::getDefault(), $options['date_format'], $options['time_format']);
     }
 }
