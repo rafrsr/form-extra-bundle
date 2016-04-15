@@ -36,7 +36,13 @@ class DateTimePickerType extends AbstractType
             array_intersect_key($options, $this->getDefaultWidgetOptions())
         );
 
-        $format = $this->getIntlDateFormatter($options)->getPattern();
+        // allow custom format (e.g 'MM/YYYY')
+        if (isset($options['format'])) {
+            $format = $options['format'];
+        } else {
+            $format = $this->getIntlDateFormatter($options)->getPattern();
+        }
+
         $widgetOptions['format'] = $this->momentJSFormatConvert($format);
 
         if (isset($view->vars['widget_form_control_class']) && isset($view->vars['widget_addon_append']['icon'])) {
@@ -89,6 +95,7 @@ class DateTimePickerType extends AbstractType
                 $this->getDefaultWidgetOptions(),
                 [
                     'widget' => 'single_text',
+                    'format' => null,
                     'date_format' => \IntlDateFormatter::MEDIUM,
                     'time_format' => \IntlDateFormatter::SHORT,
                     'widget_addon_append' => [
@@ -97,6 +104,8 @@ class DateTimePickerType extends AbstractType
                 ]
             )
         );
+
+        $resolver->setAllowedTypes('format', ['null', 'string']);
 
         $resolver->setAllowedValues(
             'date_format',
