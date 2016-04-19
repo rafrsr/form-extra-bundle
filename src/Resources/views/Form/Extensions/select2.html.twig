@@ -1,7 +1,74 @@
 {% if form.vars.choices is defined and select2_options is defined %}
     <script>
         $(function () {
-            $('#{{ form.vars.id }}').select2({{ select2_options|raw }} );
+            var $element = $('#{{ form.vars.id }}'),
+                options = {{ select2_options|raw }};
+
+            $element.select2(options);
+
+            if (options.tags) {
+                // paste tags from clipboard support
+                var select2 = $element.data('select2'),
+                    tokenSeparators = select2.options.options.tokenSeparators;
+
+                function tokenizer(term, values, tokenSeparators, callback) {
+                    var i = 0;
+
+                    term = term.replace(/\n/g, ',') + ',';
+
+                    while (i < term.length) {
+                        var termChar = term[i];
+
+                        if ($.inArray(termChar, tokenSeparators) === -1) {
+                            i++;
+                            continue;
+                        }
+
+                        var part = term.substr(0, i);
+
+                        if (part == null || part == '') {
+                            i++;
+                            continue;
+                        }
+
+                        // avoid duplicate
+                        if (values.indexOf(part) === -1) {
+                            values.push(part);
+                            callback(part);
+                        }
+
+                        // Reset the term to not include the tokenized portion
+                        term = term.substr(i + 1) || '';
+                        i = 0;
+                    }
+
+                    return values;
+                }
+
+                select2.$container.on('paste', '.select2-search__field', function (e) {
+                    var term = e.originalEvent.clipboardData.getData('text/plain');
+
+                    if (term) {
+                        // get current values
+                        var values = [];
+                        $element.find('option').each(function(){
+                            values.push($(this).text());
+                        });
+
+                        // parse clipboard data and add tags options
+                        var result = tokenizer(term, values, tokenSeparators, function (part) {
+                            $element.append($('<option>').val(part).text(part).attr('data-select2-tag', true));
+                        });
+
+                        // update new tags
+                        if (result.length > 0) {
+                            $element.val($.merge($element.val(), result));
+                            $element.trigger('change');
+                            e.preventDefault();
+                        }
+                    }
+                });
+            }
         });
     </script>
 {% endif %}
