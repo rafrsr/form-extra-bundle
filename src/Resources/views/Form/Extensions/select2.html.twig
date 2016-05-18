@@ -3,8 +3,15 @@
         $(function () {
             var options = {
                 templateResult: function (result) {
-                    if (result.element) {
-                        return $(result.element).html();
+                    if (result.element && $(result.element).data('template-result') && $(result.element).data('template-result') != undefined) {
+                        return $(result.element).data('template-result');
+                    }
+
+                    return result.text;
+                },
+                templateSelection: function (result) {
+                    if (result.element && $(result.element).data('template-selection') && $(result.element).data('template-selection') != undefined) {
+                        return $(result.element).data('template-selection');
                     }
 
                     return result.text;
