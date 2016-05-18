@@ -1,7 +1,21 @@
 {% if form.vars.choices is defined and select2_options is defined %}
     <script>
         $(function () {
-            $('#{{ form.vars.id }}').select2({{ select2_options|raw }});
+            var options = {
+                templateResult: function (result) {
+                    console.log(result);
+                    if (result.element) {
+                        return $(result.element).html();
+                    }
+
+                    return result.text;
+                },
+                escapeMarkup: function (markup) {
+                    return markup;
+                }
+            };
+            options = $.extend(options,{{ select2_options|raw }});
+            $('#{{ form.vars.id }}').select2(options);
         });
     </script>
 {% endif %}
