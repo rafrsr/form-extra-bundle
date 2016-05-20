@@ -22,6 +22,14 @@
             };
             options = $.extend(options,{{ select2_options|raw }});
             $('#{{ form.vars.id }}').select2(options);
+
+            //small hack to allow search inside bootstrap modals
+            //issue: http://stackoverflow.com/questions/18487056/select2-doesnt-work-when-embedded-in-a-bootstrap-modal/18487440#18487440
+            $('#{{ form.vars.id }}').on('select2:open', function () {
+                if ($(this).parents('.modal').length) {
+                    $(this).parents('.modal').removeAttr('tabindex');
+                }
+            });
         });
     </script>
 {% endif %}
