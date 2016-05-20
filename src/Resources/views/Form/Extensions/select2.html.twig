@@ -4,7 +4,6 @@
             //hack to allow search inside template result attribute
             var matchTemplate = function (term, text, data) {
                 text = $(data.element).data('template-result');
-                console.log(text);
                 if (text != undefined && text.toUpperCase().indexOf(term.toUpperCase()) >= 0) {
                     return true;
                 }
