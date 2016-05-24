@@ -73,6 +73,26 @@ class Select2Extension extends AbstractTypeExtension
                         = call_user_func_array($options['select2_template_result'], [$choice, $object]);
                 }
             }
+
+            if ($options['select2_template_selection']) {
+
+                $object = $choice->value;
+                if ($this->doctrine && $options['class']) {
+                    $object = $this->doctrine->getRepository($options['class'])->find($object);
+                }
+                if (is_string($options['select2_template_selection'])) {
+                    $choice->attr['data-template-selection'] = $this->templating->render(
+                        $options['select2_template_selection'],
+                        [
+                            'choice' => $choice,
+                            'object' => $object
+                        ]
+                    );
+                } else {
+                    $choice->attr['data-template-selection']
+                        = call_user_func_array($options['select2_template_selection'], [$choice, $object]);
+                }
+            }
         }
 
         if ($options['select2'] === true) {
