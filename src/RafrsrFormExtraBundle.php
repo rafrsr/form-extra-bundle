@@ -9,6 +9,8 @@
 
 namespace Rafrsr\FormExtraBundle;
 
+use Rafrsr\FormExtraBundle\DependencyInjection\CompilerPass\AutocompleteProviderCompilerPass;
+use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\HttpKernel\Bundle\Bundle;
 
 /**
@@ -16,4 +18,11 @@ use Symfony\Component\HttpKernel\Bundle\Bundle;
  */
 class RafrsrFormExtraBundle extends Bundle
 {
+    /**
+     * @inheritdoc
+     */
+    public function build(ContainerBuilder $container)
+    {
+        $container->addCompilerPass(new AutocompleteProviderCompilerPass());
+    }
 }

@@ -15,6 +15,8 @@ use Symfony\Component\Form\ChoiceList\View\ChoiceView;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\FormInterface;
 use Symfony\Component\Form\FormView;
+use Symfony\Component\OptionsResolver\Exception\AccessException;
+use Symfony\Component\OptionsResolver\Exception\UndefinedOptionsException;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Templating\EngineInterface;
 
@@ -36,6 +38,7 @@ class Select2Extension extends AbstractTypeExtension
     private $select2DefaultOptions
         = [
             'minimumResultsForSearch' => 20,
+            'minimumInputLength' => 0,
         ];
 
     /**
@@ -49,6 +52,8 @@ class Select2Extension extends AbstractTypeExtension
 
     /**
      * @inheritdoc
+     *
+     * @throws \RuntimeException
      */
     public function finishView(FormView $view, FormInterface $form, array $options)
     {
@@ -96,6 +101,12 @@ class Select2Extension extends AbstractTypeExtension
         }
 
         if ($options['select2'] === true) {
+            if ($options['autocomplete']) {
+                $options['select2_options']['minimumResultsForSearch'] = 0;
+                if (!isset($options['select2_options']['minimumInputLength'])) {
+                    $options['select2_options']['minimumInputLength'] = $options['autocomplete_min_length'];
+                }
+            }
             $options['select2_options'] = array_merge($this->select2DefaultOptions, $options['select2_options']);
             $view->vars['select2_options'] = json_encode($options['select2_options']);
         }
@@ -103,6 +114,9 @@ class Select2Extension extends AbstractTypeExtension
 
     /**
      * @inheritdoc
+     *
+     * @throws AccessException
+     * @throws UndefinedOptionsException
      */
     public function configureOptions(OptionsResolver $resolver)
     {

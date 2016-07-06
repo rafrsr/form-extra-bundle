@@ -26,11 +26,28 @@
                             return $(result.element).data('template-selection');
                         }
 
+                        if (result.selection_text){
+                            return result.selection_text;
+                        }
+
                         return result.text;
                     },
                     escapeMarkup: function (markup) {
                         return markup;
+                    },
+                    {% if autocomplete_options is defined %}
+                    ajax: {
+                        url: '{{ autocomplete_options.autocomplete_url }}',
+                        dataType: 'json',
+                        delay: 300,
+                        data: function (params) {
+                            return {
+                                q: params.term, // search term
+                                page: params.page
+                            };
+                        }
                     }
+                    {% endif %}
                 };
                 options = $.extend(options,{{ select2_options|raw }});
                 $('#{{ form.vars.id }}').select2(options);

@@ -1,8 +1,8 @@
 services:
   rafrsr_toggle_form_extension:
-    class: Rafrsr\FormExtraBundle\Form\Extension\ToggleFormTypeExtension
-    tags:
-        - { name: form.type_extension, extended_type: Symfony\Component\Form\Extension\Core\Type\FormType }
+      class: Rafrsr\FormExtraBundle\Form\Extension\ToggleFormTypeExtension
+      tags:
+          - { name: form.type_extension, extended_type: Symfony\Component\Form\Extension\Core\Type\FormType }
 
   rafrsr_widget_template_form_extension:
       class: Rafrsr\FormExtraBundle\Form\Extension\WidgetTemplateExtension
@@ -21,6 +21,53 @@ services:
       tags:
           - { name: form.type_extension, extended_type: Symfony\Component\Form\Extension\Core\Type\ChoiceType }
 
+  rafrsr_form.autocomplete.typeahead_extension:
+      class: Rafrsr\FormExtraBundle\Form\Extension\TypeaheadExtension
+      calls:
+          - [ setContainer, [ '@service_container' ]]
+      tags:
+          - { name: form.type_extension, extended_type: Symfony\Component\Form\Extension\Core\Type\TextType }
+
+  rafrsr_form.autocomplete.select2_extension:
+      class: Rafrsr\FormExtraBundle\Form\Extension\Select2AutocompleteExtension
+      calls:
+          - [ setContainer, [ '@service_container' ]]
+      tags:
+          - { name: form.type_extension, extended_type: Symfony\Component\Form\Extension\Core\Type\ChoiceType }
+
+  rafrsr_form.autocomplete.provider.entity:
+      class: Rafrsr\FormExtraBundle\Autocomplete\Provider\SimpleEntityProvider
+      arguments: ['@?doctrine']
+      tags:
+          - { name: rafrsr_form.autocomplete.provider }
+
+  rafrsr_form.autocomplete.provider.select2:
+      class: Rafrsr\FormExtraBundle\Autocomplete\Provider\Select2Provider
+      arguments: ['@?doctrine']
+      calls:
+           - [ setContainer, [ '@service_container' ]]
+      tags:
+           - { name: rafrsr_form.autocomplete.provider }
+
+  rafrsr_form.autocomplete.provider.select2_tags:
+      class: Rafrsr\FormExtraBundle\Autocomplete\Provider\Select2TagsProvider
+      arguments: ['@?doctrine']
+      tags:
+          - { name: rafrsr_form.autocomplete.provider }
+
+  rafrsr_form.autocomplete.provider.typeahead:
+      class: Rafrsr\FormExtraBundle\Autocomplete\Provider\TypeaheadProvider
+      arguments: ['@?doctrine']
+      tags:
+          - { name: rafrsr_form.autocomplete.provider }
+
+  rafrsr_form.autocomplete.provider_manager:
+      class: Rafrsr\FormExtraBundle\Autocomplete\AutocompleteProviderManager
+
+  rafrsr_form.autocomplete.context_manager:
+      class: Rafrsr\FormExtraBundle\Autocomplete\AutocompleteContextManager
+      arguments: ['@session']
+
   rafrsr_embedded_template_form_type:
       class: Rafrsr\FormExtraBundle\Form\Type\EmbeddedTemplateType
       arguments: ['@templating']
@@ -28,13 +75,13 @@ services:
           - { name: form.type }
 
   rafrsr_datepicker_type_guesser:
-        class: Rafrsr\FormExtraBundle\Form\Guesser\DatePickerTypeGuesser
-        arguments: ['@doctrine']
-        tags:
-            - { name: form.type_guesser }
+      class: Rafrsr\FormExtraBundle\Form\Guesser\DatePickerTypeGuesser
+      arguments: ['@doctrine']
+      tags:
+          - { name: form.type_guesser }
 
   rafrsr_switchery_type_guesser:
-        class: Rafrsr\FormExtraBundle\Form\Guesser\SwitcheryTypeGuesser
-        arguments: ['@doctrine']
-        tags:
-            - { name: form.type_guesser }
+      class: Rafrsr\FormExtraBundle\Form\Guesser\SwitcheryTypeGuesser
+      arguments: ['@doctrine']
+      tags:
+          - { name: form.type_guesser }
