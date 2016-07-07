@@ -1,0 +1,8 @@
+{% block rafrsr_form_angular_form_widget %}
+    {{ form_widget(form) }}
+    <script>
+        $('#{{ form.vars.id }}').parents('form').angularController(function ({% for service in angular_services_array %}{{ service }}{% if not loop.last %},{% endif %}{% endfor %}) {
+            {{ controller_body|raw }}
+        },{{ angular_services|raw }},{{ angular_modules|raw }});
+    </script>
+{% endblock %}

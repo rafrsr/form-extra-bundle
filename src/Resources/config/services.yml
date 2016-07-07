@@ -10,6 +10,17 @@ services:
       tags:
           - { name: form.type_extension, extended_type: Symfony\Component\Form\Extension\Core\Type\FormType }
 
+  rafrsr_form.angular_controller_form_type:
+      class: Rafrsr\FormExtraBundle\Form\Type\AngularControllerType
+      arguments: ['@templating']
+      tags:
+          - { name: form.type }
+
+  rafrsr_form.angular_extension:
+      class: Rafrsr\FormExtraBundle\Form\Extension\AngularModelExtension
+      tags:
+          - { name: form.type_extension, extended_type: Symfony\Component\Form\Extension\Core\Type\FormType }
+
   rafrsr_widget_ordered_form_extension:
       class: Rafrsr\FormExtraBundle\Form\Extension\OrderedExtension
       tags:
