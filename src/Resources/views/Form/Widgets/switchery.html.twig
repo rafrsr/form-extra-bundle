@@ -4,6 +4,7 @@
         $(function () {
             var elem = document.getElementById('{{ form.vars.id }}');
             var init = new Switchery(elem, {{ widget_options|raw }});
+            $(elem).data('Switchery', init);
         });
     </script>
 {% endblock %}
