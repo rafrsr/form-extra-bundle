@@ -24,7 +24,7 @@ class DateTimePickerType extends AbstractType
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        $builder->addViewTransformer(new DateTimePickerTransformer($this->getIntlDateFormatter($options)));
+        $builder->addViewTransformer(new DateTimePickerTransformer($this->getIntlDateFormatter($options), $options['format']));
     }
 
     /**
