@@ -15,20 +15,17 @@ use Symfony\Component\Form\FormInterface;
 use Symfony\Component\Form\FormView;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
-/**
- * Class ToggleFormTypeExtension
- */
 class ToggleFormTypeExtension extends AbstractTypeExtension
 {
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function finishView(FormView $view, FormInterface $form, array $options)
     {
         //TODO: support for expanded choices (radio buttons)
 
         if (isset($options['toggle_group'])) {
-            $groups = (array)$options['toggle_group'];
+            $groups = (array) $options['toggle_group'];
 
             if ($groups) {
                 $view->vars['toggle_groups'] = $groups;
@@ -38,23 +35,23 @@ class ToggleFormTypeExtension extends AbstractTypeExtension
         if (isset($options['toggle'])
             || isset($options['toggle_prefix'])
         ) {
-            $view->vars['toggle'] = true;
+            $view->vars['attr']['form-toggle'] = null;
 
             //convert into class name
             if ($options['toggle']) {
-                $view->vars['attr']['data-toggle'] = '.toggle_group_' . $options['toggle'];
-                $view->vars['attr']['data-reverse-toggle'] = '.toggle_group_not_' . $options['toggle'];
+                $view->vars['attr']['data-toggle'] = '.toggle_group_'.$options['toggle'];
+                $view->vars['attr']['data-reverse-toggle'] = '.toggle_group_not_'.$options['toggle'];
             }
 
             if ($options['toggle_prefix']) {
-                $view->vars['attr']['data-toggle-prefix'] = '.toggle_group_' . $options['toggle_prefix'];
-                $view->vars['attr']['data-toggle-reverse-prefix'] = '.toggle_group_not_' . $options['toggle_prefix'];
+                $view->vars['attr']['data-toggle-prefix'] = '.toggle_group_'.$options['toggle_prefix'];
+                $view->vars['attr']['data-reverse-toggle-prefix'] = '.toggle_group_not_'.$options['toggle_prefix'];
             }
         }
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function configureOptions(OptionsResolver $resolver)
     {
@@ -72,7 +69,7 @@ class ToggleFormTypeExtension extends AbstractTypeExtension
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function getExtendedType()
     {
