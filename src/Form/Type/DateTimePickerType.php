@@ -101,6 +101,11 @@ class DateTimePickerType extends AbstractType
                     'widget_addon_append' => [
                         'icon' => 'calendar',
                     ],
+                    // If initialized with a \DateTime object, FormType initializes
+                    // this option to "\DateTime". Since the internal, normalized
+                    // representation is not \DateTime, but an array, we need to unset
+                    // this option.
+                    'data_class' => null,
                 ]
             )
         );
