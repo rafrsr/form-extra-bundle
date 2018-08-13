@@ -217,13 +217,14 @@ class DateTimePickerType extends AbstractType
             'd' => 'D',
             // hour
             'HH' => 'HH',
-            'H' => 'H',
+            'H' => 'HH',
             'h' => 'h',
             'hh' => 'hh',
             // am/pm
             'a' => 'a',
             // minute
             'mm' => 'mm',
+            'i' => 'mm',
             'm' => 'm',
             // second
             'ss' => 'ss',
