@@ -25,37 +25,34 @@ class Select2AutocompleteExtension extends AutocompleteBaseExtension
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        $builder->addEventListener(
-            FormEvents::PRE_SUBMIT,
-            function (FormEvent $event) use ($options) {
-                if ($options['autocomplete']) {
-                    /** @var FormInterface $form */
-                    $form = $event->getForm();
-                    $data = $event->getData();
+        if ($options['autocomplete']) {
+            $builder->addEventListener(FormEvents::PRE_SUBMIT, function (FormEvent $event) use ($options) {
+                /** @var FormInterface $form */
+                $form = $event->getForm();
+                $data = $event->getData();
 
-                    if (!array_key_exists('em', $options)) {
-                        return;
-                    }
-
-                    $idReader = $options['id_reader'];
-                    $em = $options['em'];
-
-                    $items = $em->getRepository($options['class'])->findBy([$idReader->getIdField() => $data]);
-                    foreach ($items as $item) {
-                        $options['choices'][$idReader->getIdValue($item)] = $item;
-                    }
-
-                    if ($options['multiple']) {
-                        $options['data'] = $options['choices'];
-                    } else {
-                        $options['data'] = current($options['choices']);
-                    }
-
-                    $type = get_class($form->getConfig()->getType()->getInnerType());
-                    $form->getParent()->add($form->getName(), $type, $options);
+                if (!array_key_exists('em', $options)) {
+                    return;
                 }
-            }
-        );
+
+                $idReader = $options['id_reader'];
+                $em = $options['em'];
+
+                $items = $em->getRepository($options['class'])->findBy([$idReader->getIdField() => $data]);
+                foreach ($items as $item) {
+                    $options['choices'][$idReader->getIdValue($item)] = $item;
+                }
+
+                if ($options['multiple']) {
+                    $options['data'] = $options['choices'];
+                } else {
+                    $options['data'] = current($options['choices']);
+                }
+
+                $type = get_class($form->getConfig()->getType()->getInnerType());
+                $form->getParent()->add($form->getName(), $type, $options);
+            });
+        }
     }
 
     /**
