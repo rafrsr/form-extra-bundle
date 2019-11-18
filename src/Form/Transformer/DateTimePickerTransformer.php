@@ -53,9 +53,13 @@ class DateTimePickerTransformer implements DataTransformerInterface
         }
 
         if ('' === $value) {
-            return;
+            return null;
         }
 
-        return new \DateTime($value);
+        try {
+            return new \DateTime($value);
+        } catch (\Exception $e) {
+            throw new TransformationFailedException($e->getMessage(), $e->getCode(), $e);
+        }
     }
 }
